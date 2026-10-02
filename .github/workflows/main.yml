@@ -1,0 +1,86 @@
+# Guárdalo como:  .github/workflows/build.yml
+#
+# Sube al repositorio (en la RAÍZ) los archivos tal cual están en tu carpeta:
+#   Effects_Max_Ultra_Legendary_Studios.py, bt3eff_core.py, hexview.py, lang.py, ps2tex.py,
+#   recursos.py, texview.py, recursos.dat, icone.ico, LEIA-ME.txt   (config.json y __pycache__ no hacen falta)
+#
+# Resultado: UN solo .exe (Windows) con todo dentro: módulos .py, recursos.dat, icone.ico y LEIA-ME.txt.
+#
+# Cuándo corre:
+#   - en cada push a main/master y en cada pull request -> sube el .exe como artifact
+#   - al subir un tag tipo v1.1.0                       -> además crea un Release con el .exe
+#   - a mano desde la pestaña Actions (Run workflow)
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write   # necesario para crear el Release
+
+env:
+  APP_NAME: Effects_Max_Ultra_Legendary_Studios
+  APP_PY: Effects_Max_Ultra_Legendary_Studios.py
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller pillow
+
+      - name: Comprobar que todos los .py compilan y que tkinter funciona
+        run: |
+          Get-ChildItem *.py | ForEach-Object { python -m py_compile $_.Name; if ($LASTEXITCODE -ne 0) { throw "Error en $($_.Name)" } }
+          python -c "import tkinter; print('tkinter', tkinter.TkVersion)"
+
+      - name: Compilar el .exe con PyInstaller (un solo archivo)
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --name "$env:APP_NAME"
+          --icon icone.ico
+          --add-data "recursos.dat;."
+          --add-data "icone.ico;."
+          --add-data "LEIA-ME.txt;."
+          --hidden-import texview
+          --hidden-import hexview
+          --hidden-import ps2tex
+          --hidden-import bt3eff_core
+          --hidden-import lang
+          --hidden-import recursos
+          --hidden-import PIL.Image
+          "$env:APP_PY"
+
+      - name: Comprobar que se generó el .exe
+        run: |
+          if (!(Test-Path "dist/$env:APP_NAME.exe")) { throw "No se generó el .exe" }
+          Get-Item "dist/$env:APP_NAME.exe" | Select-Object Name, Length
+
+      - name: Subir el .exe como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-windows
+          path: dist/${{ env.APP_NAME }}.exe
+          if-no-files-found: error
+
+      - name: Crear Release (solo cuando se sube un tag v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/${{ env.APP_NAME }}.exe
+          generate_release_notes: true
