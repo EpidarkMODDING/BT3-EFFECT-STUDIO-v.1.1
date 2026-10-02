@@ -1,0 +1,195 @@
+Effects Max Ultra Legendary Studios v1.1
+(antigo BT3 Effect Studio)
+========================================
+Como rodar: instale o Python 3 (python.org, marque "Add to PATH") e dê dois cliques em
+Effects_Max_Ultra_Legendary_Studios.py, ou rode:
+  python Effects_Max_Ultra_Legendary_Studios.py
+
+Arquivos:
+  Effects_Max_Ultra_Legendary_Studios.py  interface
+  texview.py / hexview.py  janelas de texturas e hexadecimal
+  bt3eff_core.py        leitura/gravação dos .pak de efeito
+  ps2tex.py             texturas do PS2 (decodificar / reduzir cores)
+  recursos.py           leitura do pacote protegido
+  lang.py               textos em PT-BR / ES / EN
+  recursos.dat          modelos, extras e cenas do projeto (protegidos)
+
+Pastas opcionais (o programa soma ao que está no recursos.dat):
+  modelos/  extras/ (+ extras.json)  cenas/  auras/  suportes/  pre_disparo/   -> arquivos seus (subpastas viram grupos), NÃO protegidos
+
+O que já funciona:
+  - Abrir/salvar .pak de efeito (sem Sparking Studio, sem renomear arquivos)
+  - Validação antes de salvar + backup .bak automático + Ctrl+Z
+  - Lista de mini-efeitos com caixas de marcar (em vermelho: os que acertam o oponente)
+  - Colorir efeito inteiro, só marcados ou por grupo; RGB manual linha a linha
+  - Editar parâmetros (atraso, duração, invocação, posição, tamanhos, tempos)
+  - Escalar tamanho dos marcados
+  - Grupos (Aura, Carregamento, Projétil, Feixe, Impacto...) salvos em .grupos.json
+  - Combinar efeitos: importar mini-efeitos de outro .pak (DBTs e índices corrigidos sozinhos)
+
+Novidades da v1.1:
+  - Capa ao abrir (Enter para entrar), ícone do programa e créditos no 'Sobre'
+  - Modo noturno (menu Exibição)
+  - Nomes corretos dos efeitos de um pacote completo (lista do Sparking Studio) e dos mapas no 02_.dat
+  - RGB manual: Inverter e Copiar entre Vermelho/Verde/Azul/Intensidade (como no Skill Shader Editor)
+  - Ocultar listras brancas agora fica na aba Comportamento
+  - Imagens ilustrativas (botão 🖼) em formatos, pré-disparos, auras e extras
+  - Visualizador de texturas: mudar a cor do DBT
+  - Novos: Bola de Fogo (4 Estrelas), Maximum Final Flash, Ulti Hatchiyak, Explosive Wave com
+    explosões (novo arquivo); pré-disparo para todos os formatos que têm carregamento
+  - Extras: Final Flash (novo) e Final Flash Blue (antigo), Rodelas do Full Force Kamehameha
+    (só com feixe), Rodelas do Madam Paikuhan; Rastros Pai e Filho retirado por enquanto
+
+Novidades da v1.0:
+  - Novo nome: Effects Max Ultra Legendary Studios
+  - Abre pacotes completos de efeitos (ex.: Goku_eff.pak): mostra os .pak de dentro e salva de volta
+  - Texturas: ver, exportar/importar PNG (ajusta resolução e cores), ver e editar quem usa cada
+    imagem (posição/tamanhos) e ocultar tudo que usa um DBT
+  - Editor hexadecimal dos arquivos do efeito (e de .dat avulsos) com o significado de cada byte
+  - Colorir com contraste; inverter/copiar canais RGB
+  - Classe 02 (saídas de luz) agora é colorida; explicação de Classes e Grupos
+  - Ceninha: como o golpe aparece (feixe/projétil/vertical/barragem), grupo 01 na ceninha,
+    editor do 02_.dat por mapa e evento
+  - Converter qualquer efeito em barragem; ocultar as listras brancas globais
+  - Bytes +0x09/+0x0A/+0x0B editáveis e explicados; correção sobre o grupo 05
+  - Comportamentos: Exclusivos de Rush (Barragem Cui, Vôlei do Gotenks, Trunks Dome) e
+    Barragem Death Beam (Frieza Torture); aura extra Trunks Dome
+
+Novidades da v0.19:
+  - Reduzir cores volta a ter só a opção 256 → 16 (a única que diminui o peso)
+  - Aba Flags agora edita só o byte de flags do 03.dat (primeiro bloco de parâmetros),
+    sem escolher mini-efeitos
+
+Novidades da v0.18:
+  - Nova aba Flags (no lugar de 'Em breve')
+  - Feixe Akkuman e S.S. Deadly Bomber corrigidos; o Deadly Bomber anterior virou
+    'Barragem de Cauda Longa' em Projéteis › Barragem
+
+Novidades da v0.17:
+  - Formatos reorganizados: Área › 2 Etapas, Vertical › 2 Etapas, Projéteis › Barragem,
+    novas categorias Espada, Modelos 3D, Explosive Wave e Genki Dama
+  - Formatos novos: Tempestade Ardente, 1 Estrela (2 Etapas), Final Shine, Feixe Akkuman,
+    Giant Storm, Bola de Rancor, Projétil Dabura, S.S. Deadly Bomber, Bola Mortal (Super 17),
+    Super Nova, Projéteis Broly, Zona da Morte, Metralhadora (Super 17), Lança-chamas,
+    Área de Raios (Mestre Kame), Espada de Ki, Paralisia General Blue, Genki Dama (Início);
+    Área de 2 Etapas (Nappa) substituída
+  - Pré-disparo corrigido (Cortes Trunks) e novos pré-disparos de cada formato novo,
+    Cortes Janemba e Final Shine
+  - Avisos: Cortes de Trunks (Magic Word 344), Espada de Ki (precisa de parâmetros),
+    General Blue (só cena)
+  - Extras: Rastros de aura agora ficam na seção Aura; novo Anel (Projéteis Broly)
+  - Aba Grupos simplificada; seção 'Aura antes do disparo' renomeada para 'Aura'
+
+Novidades da v0.16:
+  - Formatos agrupados em menus (Área, Duas Etapas › Verticais, Assaults, Argolas, Cortes...)
+  - Formatos novos: Cortes Janemba, Big Bang Kamehameha, Argola Tripla (com cena), Argola Única,
+    Assault Esfera/Tornado/Chamas, Paikuhan (Madam), Argola Turles, Cortes de Espada
+  - Formatos pré-disparo: Cortes Trunks
+  - Nova aba 'Parâmetros de suporte': disparar até o adversário (refeito), ficar até usar
+    especial, e parâmetros de cada suporte (cabeçalho editável)
+  - Suportes: Aura até usar especial 1 e 2
+  - Extras: Rastros de aura no chão (Kamehameha Pai e Filho), também em auras e suportes
+  - Tamanho e tempo: padrões de crescimento (Argola Turles, Ulti Bills) com opção de reverter
+
+Novidades da v0.15:
+  - Cores: 'Reduzir intensidade / opacidade' por porcentagem, em todas as fases ou só nas escolhidas
+    (opacidade, brilho e, se quiser, texturas)
+  - Auras: aba Tamanho e tempo disponível; novo formato Bestial
+  - Novo modo Suporte/Skills (00_skill_001, 01_skill_002, 00_effect_skill_1, 01_effect_skill_2):
+    Cores, Tamanho e tempo, Extras, formatos de suporte e formato de aura (experimental)
+  - Formatos de suporte: Taiyoken, Explosive Wave, Explosive Wave 2, Alma Saiyajin,
+    Barreira Andróide, Paralisia Zangya, Paralisia God, Paralisia Hitto (móvel), Rebirth
+  - 'Ir até o adversário' (experimental) para suportes, baseado na Paralisia Hitto
+
+Novidades da v0.14:
+  - Auras: abre arquivos 01_charge_aura.pak (modo aura: só Cores, Extras de aura/antes do
+    disparo e a nova aba 'Formato da aura')
+  - Formatos de aura: SSJ2, God, Blue, Instinto Superior, Broly Super e Humano
+  - Cores: 'Forçar cor em partes brancas/cinzas' (0 a 100%) para efeitos muito brancos
+  - Makankosappo virou formato ('Formato Makankosappo'); o extra Argolas saiu
+  - Ataque de Área de Duas Etapas (Nappa) substituído pelo arquivo novo
+
+Novidades da v0.13:
+  - Efeitos base do projeto protegidos: ficam cifrados dentro do recursos.dat,
+    não aparecem como .pak na pasta e não podem ser salvos sem alterações
+  - Formatos novos: Super Explosive Wave (com explosões), Explosive Wave (Broly),
+    Genki Dama (Fim) e Genki Dama (Meio)
+
+Novidades da v0.12:
+  - Argolas (Makankosappo) corrigidas: o encaixe se adapta ao efeito de destino
+    (vale para todos os extras)
+  - Auras novas: SSJ (Big Bang Attack) e Solar (4 Estrelas)
+  - Formatos: Ataque de Área (Dodoria Madam); Ataque Vertical de Duas Etapas em 3 opções:
+    4 Estrelas, Fasha e Kuririn
+
+Novidades da v0.11:
+  - Editor de flags do byte +0x00 (caixas de marcar, soma automática) na aba Tamanho e tempo
+  - Extras novos: Raios e Argolas (Makankosappo), Feixes luminosos (Kamehameha),
+    Raios intensos e Redemoinho circular (Shin), Tornado (Majuub)
+  - Nova seção 'Aura antes do disparo': Final Flash e Tornado (Majuub)
+  - Formatos novos: Kikoho, Projétil e Feixe (menu Modelos / aba Comportamento)
+
+Novidades da v0.10:
+  - Modelos: 'Ataque Horizontal (Hellzone)' e 'Ataque Horizontal (Janemba)' (novo arquivo)
+  - Comportamento: opção 'Só comportamento (mantém o formato do seu efeito)'
+  - Extras refeitos em par (carregamento + disparo), como no efeito original:
+    Redemoinho, Bolinhas e Bolinhas só antes do disparo
+  - Detecção da fase do disparo melhorada (horizontais usam a fase 1)
+
+Novidades da v0.9:
+  - Reduzir cores das texturas (256 → 16): todas ou só as dos marcados (aba Cores)
+  - Comportamento copia também os parâmetros de lançamento do cabeçalho (vertical, alcance)
+  - Extras e 'Fase dos importados' ajustam os bytes +0x09/+0x0A à fase de destino
+
+Novidades da v0.8:
+  - Aba Extras: Redemoinho (disparo), Bolinhas (antes do disparo e disparo),
+    pintados com a cor predominante; não mudam formato nem classe
+  - Modelos: novo 'Ataque de Área (Madam)' e 'Ataque Horizontal (Janemba)'
+  - Texturas do PS2 decodificadas (base para a troca por PNG)
+
+Novidades da v0.7.1:
+  - Modelos: o antigo 'Ataque Vertical' virou 'Ataque de Área (Fumaça Buu)' e o
+    'Ataque Vertical' agora usa o efeito novo
+  - Dica: o menu Modelos usa o nome dos arquivos da pasta 'modelos'; renomeie à vontade
+
+Novidades da v0.7:
+  - Comportamento agora também copia o formato do lançamento (fases 1, 2 e 3) e pinta
+    o que veio com a cor predominante do seu efeito; o carregamento (fase 0) é mantido
+  - Modelos: novo 'Ataque Vertical' (sobe já no lançamento) e 'Ataque de Barragem';
+    o antigo vertical do Super Buu foi retirado
+  - Aba Cena ao acertar: 'Adicionar explosão' (evento Vfx 5 = fase 4) pintada com a cor
+    predominante do efeito
+
+Novidades da v0.6:
+  - Remover ou tornar invisível uma fase/grupo inteiro (aba Grupos) ou os marcados
+  - Aviso ao remover partes que acertam o oponente
+  - Cena ao acertar: referências 'chão' e 'ar' cadastradas
+
+Novidades da v0.5:
+  - Primeira execução pergunta idioma, resolução e escala
+  - Tamanho e tempo: escalar um grupo/fase inteiro de uma vez
+  - Aba Cena ao acertar (experimental): sem cena / manter no chão / jogar pro ar,
+    copiar cena de outro .pak e cadastrar referências
+  - Tamanho do arquivo no topo (vermelho acima de 200 KB) + botão 'Peso...' com o detalhamento
+
+Novidades da v0.4:
+  - Menu Exibição: tamanho da janela (1024×600 até 1920×1080, maximizada ou automático),
+    escala da interface (80% a 130%) e painel de abas à direita ou embaixo da lista
+  - Todas as abas têm barra de rolagem: nada fica escondido em telas pequenas
+  - Combinar: por padrão substitui no efeito atual os mini-efeitos das mesmas fases
+    (o efeito não duplica mais). Também dá para substituir um grupo ou só adicionar.
+
+Novidades da v0.3:
+  - Caixas 'Marcar grupos': marque vários grupos de uma vez (lista principal e origem)
+  - Botão '✔ Aplicar combinação' sempre visível na parte de baixo da aba Combinar
+  - Cor: agora as 4 sessões do shader (linhas 1 a 12) são recoloridas, não só 2
+  - RGB manual mostra as linhas por sessão
+
+Novidades da v0.2:
+  - 'Colorir o efeito inteiro' também recolore as paletas das texturas (DBT)
+  - Botões de informação (ⓘ e ?) explicando cores, tamanhos, tempos, posição e fases
+  - Parâmetros organizados em seções: quando aparece, quanto tempo fica, tamanho, onde, textura
+  - Combinar efeitos: opção para mudar a fase dos mini-efeitos importados
+  - Aba Comportamento (experimental): copia a parte que acerta de um modelo
+
+Sempre teste num .pak copiado antes de mexer nos originais.
